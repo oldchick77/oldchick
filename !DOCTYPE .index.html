@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ko-KR" class="transparentSkybridgeBackground desktopSkybridge dark" data-theme="dark" style="color-scheme: dark; --safe-area-inset-top: 0px; --safe-area-inset-bottom: 0px; --safe-area-inset-left: 0px; --safe-area-inset-right: 0px;"><head><style>@layer sandbox-defaults{html,body,#root{margin:0;padding:0}}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d19">
+  <title>PLAYROOM — 나의 게임 모음</title>
+  <style>
+    :root { color-scheme: dark; font-family: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: #f7f7ff; background: radial-gradient(ellipse 65% 38% at 85% 0%, #34215f 0%, transparent 75%), radial-gradient(ellipse 45% 35% at 0% 45%, #12344d 0%, transparent 75%), #0b0d19; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    .shell { max-width: 1120px; margin: auto; padding: 28px 28px 72px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 900; letter-spacing: 1px; }
+    .brand-icon { display: grid; place-items: center; width: 37px; height: 37px; border-radius: 12px; background: #a5ff69; color: #141a12; font-size: 22px; }
+    .top-note { color: #9b9cb2; font-size: 13px; }
+    .hero { padding: 103px 0 78px; }
+    .eyebrow { display: inline-flex; padding: 8px 13px; border: 1px solid #3e485e; border-radius: 99px; color: #bbff89; background: #b3ff7b0c; font-size: 12px; font-weight: 800; letter-spacing: 1.8px; }
+    h1 { margin: 21px 0 18px; font-size: clamp(50px, 9vw, 98px); line-height: 1.03; letter-spacing: -5px; }
+    h1 span { color: #b4fb7a; }
+    .lead { max-width: 580px; margin: 0; color: #b7b7c9; line-height: 1.9; font-size: 17px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 26px; }
+    h2 { margin: 0 0 7px; font-size: 28px; letter-spacing: -1px; }
+    .sub { margin: 0; color: #9294aa; font-size: 14px; }
+    .search { width: 240px; max-width: 100%; padding: 12px 16px; outline: 0; border: 1px solid #34374e; border-radius: 12px; color: #fff; background: #191c2c; }
+    .search:focus { border-color: #b4fb7a; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; }
+    .game-card { overflow: hidden; border: 1px solid #303346; border-radius: 22px; background: #191b2c; transition: transform .2s, border-color .2s; }
+    .game-card:hover { transform: translateY(-5px); border-color: #768f64; }
+    .art { height: 232px; display: grid; place-items: center; position: relative; overflow: hidden; }
+    .art::before { content: ''; position: absolute; width: 220px; height: 220px; border: 2px solid #ffffff22; border-radius: 50%; box-shadow: 0 0 0 40px #ffffff0b, 0 0 0 85px #ffffff08; }
+    .art span { z-index: 1; font-size: 100px; filter: drop-shadow(0 14px 12px #0005); transform: rotate(-8deg); }
+    .art.mole { background: linear-gradient(135deg, #7255c9, #bd73bb); }
+    .art.speed { background: linear-gradient(135deg, #157c8b, #4fc7a1); }
+    .art.custom { background: linear-gradient(135deg, #9b5c9c, #565bbd); }
+    .card-body { padding: 25px; }
+    .tag { color: #b5fb80; font-size: 12px; font-weight: 800; letter-spacing: 1px; }
+    h3 { font-size: 24px; margin: 11px 0 9px; }
+    .description { margin: 0; color: #a9aabc; font-size: 14px; line-height: 1.8; min-height: 50px; }
+    .play { display: flex; align-items: center; justify-content: space-between; margin-top: 25px; padding: 14px 17px; border-radius: 12px; background: #b5fb80; color: #172018; font-weight: 900; transition: background .2s; }
+    .play:hover { background: #d1ffb0; }
+    .empty { grid-column: 1/-1; padding: 50px; text-align: center; border: 1px dashed #505268; border-radius: 18px; color: #adafc3; }
+    .add { margin-top: 24px; display: flex; gap: 15px; align-items: center; padding: 23px 26px; border: 1px dashed #535667; border-radius: 17px; color: #aeb0c4; background: #ffffff05; }
+    .plus { color: #b5fb80; font-size: 30px; font-weight: 300; }
+    .add strong { color: white; display: block; margin-bottom: 4px; }
+    .add p { margin: 0; font-size: 13px; line-height: 1.7; }
+    footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 75px; padding-top: 24px; border-top: 1px solid #303244; color: #8f91a9; font-size: 12px; }
+    .tools { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tool { border: 1px solid #3b3d50; border-radius: 9px; padding: 10px 13px; color: #d5d5e1; background: #1c1e30; }
+    .tool:hover { border-color: #b5fb80; }
+    @media (max-width: 700px) { .shell { padding: 20px 18px 42px; } .hero { padding: 75px 0 65px; } h1 { letter-spacing: -3px; } .section-head { align-items: stretch; flex-direction: column; } .search { width: 100%; } .grid { grid-template-columns: 1fr; } .art { height: 205px; } .top-note { display: none; } }
+  </style>
+<style>html, body, #root {
+      margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0;
+      
+    }
+html,body,#root{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}html,body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Helvetica Neue,Arial,sans-serif!important}button,input,textarea,select{font-family:inherit}html{background-color:transparent}html.chatgptOled.dark,html.mobileSkybridge.dark{background-color:#000}@supports (font: -apple-system-body){html.mobileSkybridge{font:-apple-system-body}}html.desktopSkybridge.dark{background-color:#1e1e1e}html.transparentSkybridgeBackground,html.transparentSkybridgeBackground.dark{background-color:transparent}html.androidSkybridge,html.androidSkybridge body,html.androidSkybridge *{-webkit-tap-highlight-color:rgba(255,255,255,0)}html.androidSkybridge *::selection,html.androidSkybridge *::-moz-selection{background:#fff0;color:inherit}</style></head>
+<body>
+  <div class="shell">
+    <header>
+      <a class="brand" href="index.html"><span class="brand-icon">✦</span> PLAYROOM</a>
+      <span class="top-note">MY LITTLE GAME ARCADE</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">WELCOME TO MY ARCADE</span>
+        <h1>재미는 여기서<br><span>시작된다.</span></h1>
+        <p class="lead">직접 만든 작은 게임들을 한곳에 모았어요.<br>마음에 드는 게임을 골라 지금 바로 플레이해 보세요!</p>
+      </section>
+
+      <section aria-labelledby="games-title">
+        <div class="section-head">
+          <div><h2 id="games-title">게임 둘러보기 <span id="count" style="color:#b5fb80">02</span></h2><p class="sub">오늘은 어떤 게임에 도전해 볼까요?</p></div>
+          <input class="search" id="search" type="search" placeholder="⌕  게임 검색하기" aria-label="게임 검색">
+        </div>
+        <div class="grid" id="game-list"><article class="game-card"><div class="art mole"><span>🐹</span></div><div class="card-body"><div class="tag">클릭 · 아케이드</div><h3>두더지 잡기</h3><p class="description">쏙쏙 나타나는 두더지를 빠르게 잡아 점수를 올려 보세요!</p><a class="play" href="game.index.html">게임 플레이하기<span aria-hidden="true">↗</span></a></div></article><article class="game-card"><div class="art speed"><span>⚡</span></div><div class="card-body"><div class="tag">순발력 · 테스트</div><h3>반응속도 테스트</h3><p class="description">순간의 집중력이 승부를 가릅니다. 나의 반응속도는 몇 초일까요?</p><a class="play" href="game2.index.html">게임 플레이하기<span aria-hidden="true">↗</span></a></div></article></div>
+        <div class="add"><span class="plus">＋</span><div><strong>더 많은 게임이 찾아올 예정!</strong><p>새 게임을 만들면 아래 코드의 GAMES 목록에 한 줄만 추가하세요.</p></div></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© <span id="year">2026</span> PLAYROOM · 직접 만든 게임 모음</span>
+      <div class="tools"><button class="tool" id="copy-code" type="button">HTML 코드 복사</button><button class="tool" id="download-code" type="button">index.html 다운로드</button></div>
+    </footer>
+  </div>
+
+  <script>
+    // ★ 새 게임 추가: 이 배열에 { title, description, file, emoji, theme, genre }를 추가하세요.
+    // ★ file에는 index.html과 같은 폴더에 있는 실제 HTML 파일명을 입력하세요.
+    const GAMES = [
+      { title: '두더지 잡기', description: '쏙쏙 나타나는 두더지를 빠르게 잡아 점수를 올려 보세요!', file: 'game.index.html', emoji: '🐹', theme: 'mole', genre: '클릭 · 아케이드' },
+      { title: '반응속도 테스트', description: '순간의 집중력이 승부를 가릅니다. 나의 반응속도는 몇 초일까요?', file: 'game2.index.html', emoji: '⚡', theme: 'speed', genre: '순발력 · 테스트' }
+      // 예시: ,{ title: '새 게임', description: '게임 설명', file: 'game3.html', emoji: '🎮', theme: 'custom', genre: '아케이드' }
+    ];
+
+    const list = document.getElementById('game-list');
+    const search = document.getElementById('search');
+    const count = document.getElementById('count');
+
+    function renderGames() {
+      const keyword = search.value.trim().toLocaleLowerCase();
+      const visible = GAMES.filter(game => [game.title, game.description, game.genre].some(text => text.toLocaleLowerCase().includes(keyword)));
+      count.textContent = String(visible.length).padStart(2, '0');
+      list.replaceChildren();
+      if (!visible.length) { const empty = document.createElement('div'); empty.className = 'empty'; empty.textContent = '검색 결과가 없어요. 다른 검색어를 입력해 보세요.'; list.append(empty); return; }
+      visible.forEach(game => {
+        const card = document.createElement('article'); card.className = 'game-card';
+        const art = document.createElement('div'); art.className = 'art ' + (['mole','speed','custom'].includes(game.theme) ? game.theme : 'custom');
+        const emoji = document.createElement('span'); emoji.textContent = game.emoji; art.append(emoji);
+        const body = document.createElement('div'); body.className = 'card-body';
+        const tag = document.createElement('div'); tag.className = 'tag'; tag.textContent = game.genre;
+        const title = document.createElement('h3'); title.textContent = game.title;
+        const description = document.createElement('p'); description.className = 'description'; description.textContent = game.description;
+        const link = document.createElement('a'); link.className = 'play'; link.href = game.file; link.textContent = '게임 플레이하기';
+        const arrow = document.createElement('span'); arrow.textContent = '↗'; arrow.setAttribute('aria-hidden', 'true'); link.append(arrow);
+        body.append(tag, title, description, link); card.append(art, body); list.append(card);
+      });
+    }
+    search.addEventListener('input', renderGames);
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderGames();
+
+    function sourceCode() { return '<!DOCTYPE html>\n' + document.documentElement.outerHTML; }
+    function notice(button, message) { const previous = button.textContent; button.textContent = message; setTimeout(() => button.textContent = previous, 2000); }
+    document.getElementById('copy-code').addEventListener('click', async function() {
+      try { await navigator.clipboard.writeText(sourceCode()); notice(this, '✓ 복사 완료'); }
+      catch { const box = document.createElement('textarea'); box.value = sourceCode(); document.body.append(box); box.select(); const ok = document.execCommand('copy'); box.remove(); notice(this, ok ? '✓ 복사 완료' : '복사 실패: 다운로드 이용'); }
+    });
+    document.getElementById('download-code').addEventListener('click', function() {
+      const blob = new Blob([sourceCode()], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob); const a = document.createElement('a');
+      a.href = url; a.download = 'index.html'; document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000); notice(this, '✓ 다운로드 시작');
+    });
+  </script>
+
+<script>globalThis.__codexVisualizationInitialGlobals={"statePersistence":"none","stateModelContext":"none","visualizationStyleVariables":{"--accent":"rgb(19, 52, 99)","--accent-foreground":"rgb(44, 103, 197)","--background":"rgb(0, 0, 0)","--border":"rgba(255, 255, 255, 0.15)","--border-strong":"rgba(255, 255, 255, 0.2)","--card":"color-mix(in oklab, rgb(237, 237, 237) 5%, transparent)","--card-foreground":"rgb(237, 237, 237)","--corner-shape":"round","--control-spacing":"12px","--cursor-interaction":"pointer","--destructive":"rgb(255, 133, 73)","--font-mono":"ui-monospace, SFMono-Regular, \"SF Mono\", menlo, consolas, \"Liberation Mono\", monospace","--font-sans":"-apple-system-body, ui-sans-serif, -apple-system, system-ui, \"Segoe UI\", Helvetica, \"Apple Color Emoji\", Arial, sans-serif, \"Segoe UI Emoji\", \"Segoe UI Symbol\"","--font-size-base":"16px","--font-weight-normal":"400","--foreground":"rgb(237, 237, 237)","--input":"rgba(255, 255, 255, 0.2)","--muted":"color-mix(in srgb, rgb(237, 237, 237) 10%, transparent)","--muted-foreground":"rgb(175, 175, 175)","--popover":"rgb(48, 48, 48)","--popover-foreground":"rgb(237, 237, 237)","--primary":"rgb(44, 103, 197)","--primary-foreground":"rgb(13, 13, 13)","--radius":"8px","--radius-2xl":"16px","--radius-lg":"8px","--radius-md":"6px","--radius-sm":"4px","--ring":"rgb(58, 131, 247)","--secondary":"rgb(48, 48, 48)","--secondary-foreground":"rgb(237, 237, 237)","--blue":"rgb(58, 131, 247)","--orange":"rgb(251, 106, 34)","--green":"rgb(64, 201, 119)","--red":"rgb(255, 103, 100)","--purple":"rgb(173, 123, 249)","--yellow":"rgb(255, 210, 64)","--visualize-paint-gutter":"0px","--viz-series-1":"rgb(44, 103, 197)","--viz-series-2":"#f6d459","--viz-series-3":"#f28ec0","--viz-series-4":"#54ccc2","--viz-series-5":"#71d689","--viz-series-6":"#f79951"},"visualizationTheme":"dark"};</script>
+<style id="codex-visualization-host-theme">:root {}</style>
+<script>
+(() => {
+  // Host colors are defaults; later authored styles can give the same names
+  // their own meaning (for example, --muted as a chart's label color).
+  const hostStyles = document.getElementById("codex-visualization-host-theme");
+  const hostStyle = hostStyles.sheet.cssRules[0].style;
+  // Typography, geometry and interaction cursors still follow the host.
+  const styleForProperty = (property) =>
+    /^--(?:font-|radius|corner-shape$|control-spacing$|cursor-interaction$|icon-size$|visualize-paint-gutter$)/.test(property)
+      ? document.documentElement.style
+      : hostStyle;
+  const initialGlobals =
+    globalThis.__codexVisualizationInitialGlobals ?? globalThis.openai;
+  delete globalThis.__codexVisualizationInitialGlobals;
+  if (initialGlobals?.statePersistence != null) {
+    globalThis.openai ??= {};
+    globalThis.openai.statePersistence = initialGlobals.statePersistence;
+    globalThis.openai.stateModelContext = initialGlobals.stateModelContext ?? "none";
+  }
+  if (!false) {
+    return;
+  }
+  let appliedProperties = [];
+  const applyHostStyleVariables = (styleVariables) => {
+    if (styleVariables == null || typeof styleVariables !== "object") {
+      return;
+    }
+    for (const property of appliedProperties) {
+      styleForProperty(property).removeProperty(property);
+    }
+    appliedProperties = [];
+    for (const [property, value] of Object.entries(styleVariables)) {
+      if (property.startsWith("--") && typeof value === "string") {
+        styleForProperty(property).setProperty(property, value);
+        appliedProperties.push(property);
+      }
+    }
+  };
+
+  const syncHostStyles = (globals) => {
+    applyHostStyleVariables(globals?.visualizationStyleVariables);
+    const sandboxDocument = globalThis.frameElement?.ownerDocument;
+    if (sandboxDocument != null && globals?.visualizationTheme != null) {
+      let colorSchemeMeta = sandboxDocument.querySelector(
+        'meta[name="color-scheme"]',
+      );
+      if (colorSchemeMeta == null) {
+        colorSchemeMeta = sandboxDocument.createElement("meta");
+        colorSchemeMeta.name = "color-scheme";
+        sandboxDocument.head.appendChild(colorSchemeMeta);
+      }
+      colorSchemeMeta.content = globals.visualizationTheme;
+      sandboxDocument.documentElement.style.colorScheme =
+        globals.visualizationTheme;
+      // Paint the host surface behind transparent saved visualization documents.
+      sandboxDocument.documentElement.style.backgroundColor =
+        hostStyle.getPropertyValue("--background");
+    }
+  };
+
+  syncHostStyles(initialGlobals);
+  globalThis.addEventListener("openai:set_globals", (event) => {
+    syncHostStyles(event.detail?.globals);
+  });
+})();
+</script>
+
+
+<script>
+(() => {
+  const reportEnvironmentError = (value) => {
+    const error = value instanceof Error ? value : new Error(String(value));
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_error__",
+        {
+          message: error.message,
+          name: error.name,
+          stack: error.stack,
+        },
+      )
+      .catch(() => {});
+  };
+
+  globalThis.addEventListener("error", (event) => {
+    if (event.target?.localName === "script") {
+      // A script's own onerror may render a fallback or load an alternative.
+      // Let that handler run; failures it throws still reach the global error path.
+      const handlesError = typeof event.target.onerror === "function";
+      globalThis.queueMicrotask(() => {
+        if (!handlesError && !event.defaultPrevented) {
+          reportEnvironmentError("Visualization script could not be loaded");
+        }
+      });
+    } else if (event.target === globalThis) {
+      // The browser defers resize notifications to another frame; no script threw.
+      if (event.error == null && (
+        event.message === "ResizeObserver loop completed with undelivered notifications." ||
+        event.message === "ResizeObserver loop limit exceeded"
+      )) {
+        return;
+      }
+      reportEnvironmentError(event.error ?? event.message);
+    }
+  }, true);
+  globalThis.addEventListener("unhandledrejection", (event) => {
+    reportEnvironmentError(event.reason);
+  });
+})();
+</script>
+<script id="codex-visualization-variants">
+(() => {
+  let previousSnapshot = "[]";
+  let roots = [];
+  const report = () => {
+    roots = Array.from(
+      document.querySelectorAll(".viz-carousel[data-active-variant]"),
+    ).slice(0, 32);
+    const selectedVariants = roots.flatMap((root, carousel) => {
+      const variant = root.dataset.activeVariant;
+      const label = root.getAttribute("aria-label")?.slice(0, 256);
+      return variant ? [{
+        carousel,
+        ...(label == null ? {} : { label }),
+        variant: variant.slice(0, 256),
+      }] : [];
+    });
+    const snapshot = JSON.stringify(selectedVariants);
+    if (snapshot !== previousSnapshot) {
+      previousSnapshot = snapshot;
+      void globalThis.openai.callTool("__codex_visualization_annotations__", {
+        type: "variants",
+        selectedVariants,
+      }).catch(() => {});
+    }
+  };
+  const observer = new MutationObserver((records) => {
+    if (records.some((record) => record.type === "attributes") || roots.some((root) => !root.isConnected)) {
+      report();
+    }
+  });
+  observer.observe(document, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["data-active-variant"],
+  });
+  report();
+  globalThis.addEventListener("pagehide", () => observer.disconnect(), { once: true });
+})();
+</script>
+<script>
+(() => {
+  const selectorInRoot = (target, root) => {
+    const parts = [];
+    for (let element = target; element != null && parts.length < 64; element = element.parentElement) {
+      const id = element.id && globalThis.CSS?.escape?.(element.id);
+      if (id && id.length <= 256) {
+        const selector = ["#" + id, ...parts].join(" > ");
+        const matches = root.querySelectorAll(selector);
+        if (matches.length === 1 && matches[0] === target) {
+          return selector;
+        }
+      }
+      let index = 1;
+      for (let sibling = element.previousElementSibling; sibling != null; sibling = sibling.previousElementSibling) {
+        if (sibling.localName === element.localName) { index += 1; }
+      }
+      const tag = globalThis.CSS?.escape?.(element.localName) ?? element.localName;
+      parts.unshift(tag + ":nth-of-type(" + index + ")");
+      if (parts.join(" > ").length > 1024) { return null; }
+      if (element.parentElement == null) {
+        const selector = parts.join(" > ");
+        const matches = root.querySelectorAll(selector);
+        return matches.length === 1 && matches[0] === target ? selector : null;
+      }
+    }
+    return null;
+  };
+  const describeTarget = (element) => {
+    if (element == null || !element.isConnected) { return undefined; }
+    const tagName = element.localName.toLowerCase();
+    if (!/^[a-z][a-z0-9-]{0,63}$/.test(tagName)) { return undefined; }
+    const parts = [];
+    let current = element;
+    for (let depth = 0; depth < 16; depth += 1) {
+      const root = current.getRootNode();
+      const selector = selectorInRoot(current, root);
+      if (selector == null) { return undefined; }
+      parts.unshift(selector);
+      if (root === document) {
+        const selector = parts.length === 1 ? parts[0] : "shadow:" + parts.join(">>>");
+        if (selector.length > 1024) { return undefined; }
+        const label = (element.getAttribute("aria-label") || element.getAttribute("title") || "")
+          .replace(/[\u0000-\u001f\u007f-\u009f\u061c\u200e\u200f\u2028-\u202e\u2066-\u2069]/gu, " ")
+          .replace(/\s+/g, " ").trim().slice(0, 160);
+        return { selector, tagName, ...(label ? { label } : {}) };
+      }
+      if (!(root instanceof ShadowRoot) || root.mode !== "open") { return undefined; }
+      current = root.host;
+    }
+    return undefined;
+  };
+  let previousSnapshot = JSON.stringify({ isHovering: false });
+  const reportHover = (event, isHovering, isTouch = false, target) => {
+    const report = isTouch
+      ? { isHovering: false, pointerType: "touch" }
+      : { isHovering, ...(isHovering && target != null ? { target } : {}) };
+    const snapshot = JSON.stringify(report);
+    if (snapshot === previousSnapshot) {
+      return;
+    }
+    previousSnapshot = snapshot;
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_hover__",
+        { ...report, eventTime: globalThis.performance.timeOrigin + event.timeStamp },
+      )
+      .catch(() => {});
+  };
+
+  let hoveredElement;
+  let isTouchHover = false;
+  let latestHover = null;
+  let latestResetTime = 0;
+  const handlePointerHover = (event) => {
+    const isTouch = event.pointerType === "touch";
+    const element = isTouch ? undefined : event.composedPath().find((element) => element instanceof Element);
+    latestHover = { event, element, isTouch };
+    if (event.type === "pointermove" && element === hoveredElement && isTouch === isTouchHover) {
+      return;
+    }
+    hoveredElement = element;
+    isTouchHover = isTouch;
+    reportHover(event, !isTouch, isTouch, isTouch ? undefined : describeTarget(element));
+  };
+  const clearHover = (event) => {
+    hoveredElement = undefined;
+    isTouchHover = false;
+    latestHover = null;
+    reportHover(event, false);
+  };
+  globalThis.addEventListener("openai:set_globals", (event) => {
+    const resetTime = event.detail?.globals?.visualizationHoverReset;
+    if (typeof resetTime !== "number" || !Number.isFinite(resetTime) || resetTime <= latestResetTime) {
+      return;
+    }
+    latestResetTime = resetTime;
+    const latest = latestHover;
+    hoveredElement = undefined;
+    isTouchHover = false;
+    latestHover = null;
+    previousSnapshot = JSON.stringify({ isHovering: false });
+    // A host-observed exit can arrive after the pointer has already reentered.
+    if (latest != null && globalThis.performance.timeOrigin + latest.event.timeStamp > resetTime) {
+      latestHover = latest;
+      hoveredElement = latest.element;
+      isTouchHover = latest.isTouch;
+      reportHover(latest.event, !latest.isTouch, latest.isTouch,
+        latest.isTouch ? undefined : describeTarget(latest.element));
+    }
+  });
+  globalThis.addEventListener("pointerover", handlePointerHover, { capture: true });
+  // Moves between descendants in one shadow root do not emit pointerover outside
+  // that root. The identity guard avoids selector work while a target is unchanged.
+  globalThis.addEventListener("pointermove", handlePointerHover, { capture: true });
+  globalThis.addEventListener(
+    "pointerout",
+    (event) => {
+      if (event.pointerType !== "touch" && event.relatedTarget == null) {
+        clearHover(event);
+      }
+    },
+    { capture: true },
+  );
+  globalThis.addEventListener("pagehide", clearHover);
+})();
+</script>
+<script>
+(() => {
+  const report = (method) => {
+    void globalThis.openai.callTool("__codex_inline_visualization_input__", { method }).catch(() => {});
+  };
+  globalThis.addEventListener("pointerdown", () => report("pointer"), { capture: true });
+  globalThis.addEventListener("keydown", (event) => {
+    if (!event.isComposing && event.key !== "Shift" && !event.altKey && !event.ctrlKey && !event.metaKey) {
+      report(["Tab","ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(event.key) ? "keyboard-navigation" : "keyboard");
+    }
+  }, { capture: true });
+})();
+</script>
+<script>
+(() => {
+  const bubbledClicks = new WeakSet();
+  const interactiveSelector = [
+    "button", "input", "select", "textarea", "label", "summary", "a[href]",
+    "audio[controls]", "video[controls]", "[onclick]", "[data-visualization-interactive]",
+    '[contenteditable]:not([contenteditable="false"])',
+    ...[
+      "button", "checkbox", "combobox", "gridcell", "link", "listbox",
+      "menuitem", "menuitemcheckbox", "menuitemradio", "option", "radio",
+      "scrollbar", "searchbox", "slider", "spinbutton", "switch", "tab",
+      "textbox", "treeitem",
+    ].map((role) => '[role~="' + role + '"]'),
+  ].join(",");
+
+  globalThis.addEventListener("click", (event) => bubbledClicks.add(event));
+  globalThis.addEventListener("click", (event) => {
+    // Capture the path before a control can remove itself. Custom delegated
+    // controls can opt in with data-visualization-interactive.
+    const elements = event.composedPath().filter((target) => target instanceof Element);
+    const isInteractiveTarget = elements.some((element) =>
+      element.matches(interactiveSelector) ||
+      (element.hasAttribute("tabindex") && element.tabIndex >= 0)) ||
+      (elements[0] != null && getComputedStyle(elements[0]).cursor === "pointer");
+    // Use a task, not a microtask: native dispatch can run microtasks between
+    // listeners. Propagation flags are reset when dispatch finishes:
+    // https://dom.spec.whatwg.org/#concept-event-dispatch
+    globalThis.setTimeout(() => {
+      void globalThis.openai.callTool("__codex_inline_visualization_click__", {
+        isInteractive: isInteractiveTarget || event.defaultPrevented ||
+          (event.bubbles && !bubbledClicks.has(event)),
+      }).catch(() => {});
+    }, 0);
+  }, { capture: true });
+})();
+</script>
+<script>
+(() => {
+  globalThis.addEventListener("keydown", (event) => {
+    if (event.isComposing || event.altKey || event.ctrlKey || event.metaKey ||
+      event.shiftKey || !["ArrowLeft", "ArrowRight", "Escape"].includes(event.key)) {
+      return;
+    }
+    const target = event.composedPath().find((element) => element instanceof HTMLElement);
+    const editable = target?.closest("[contenteditable]");
+    const editing = target && (target.isContentEditable ||
+      (editable && editable.getAttribute("contenteditable") !== "false") ||
+      target.closest('input, textarea, select, [role="slider"], [role="spinbutton"], [role="combobox"], [role="listbox"], [role="grid"], [role="tree"], [role="tablist"], [role="menu"]'));
+    if (event.key !== "Escape" && editing) { return; }
+    // Let the widget handle the key before forwarding it across the sandbox.
+    globalThis.setTimeout(() => {
+      if (!event.defaultPrevented && globalThis.openai?.displayMode === "fullscreen") {
+        void globalThis.openai.callTool("__codex_inline_visualization_preview_key__", {
+          key: event.key,
+        }).catch(() => {});
+      }
+    }, 0);
+  });
+})();
+</script>
+
+
+
+
+<script>
+(() => {
+  const contentRange = document.createRange();
+  let previousMeasurement = null;
+  let heightReportTimer = null;
+  const reportHeight = () => {
+    const bodyChildren = Array.from(document.body.children).filter(
+      (element) =>
+        element.tagName !== "SCRIPT" &&
+        element.tagName !== "STYLE" &&
+        element.getAttribute("role") !== "tooltip",
+    );
+    const bodyStyle = globalThis.getComputedStyle(document.body);
+    const contentWidth = Math.max(
+      0,
+      Math.round(
+        globalThis.innerWidth -
+          parseFloat(bodyStyle.paddingLeft) -
+          parseFloat(bodyStyle.paddingRight),
+      ),
+    );
+    let contentHeight;
+    if (bodyChildren.length === 0) {
+      contentRange.selectNodeContents(document.body);
+      contentHeight = contentRange.getBoundingClientRect().height;
+    } else if (bodyChildren.length === 1) {
+      const [bodyChild] = bodyChildren;
+      const childRect = bodyChild.getBoundingClientRect();
+      // Child margins can collapse above the root without adding to its height.
+      // The host adds body padding separately.
+      contentHeight =
+        Math.max(bodyChild.scrollHeight, childRect.height) +
+        Math.max(
+          0,
+          childRect.top -
+            document.body.getBoundingClientRect().top -
+            parseFloat(bodyStyle.paddingTop),
+        );
+    } else {
+      const bodyTop = document.body.getBoundingClientRect().top;
+      contentHeight = Math.max(
+        ...bodyChildren.map(
+          (bodyChild) => bodyChild.getBoundingClientRect().bottom - bodyTop,
+        ),
+      );
+    }
+    const viewportHeight = globalThis.innerHeight;
+    const previous = previousMeasurement;
+    previousMeasurement = { contentHeight, contentWidth, viewportHeight };
+    if (
+      previous != null &&
+      contentWidth === previous.contentWidth &&
+      contentHeight - previous.contentHeight ===
+        viewportHeight - previous.viewportHeight
+    ) {
+      return;
+    }
+
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_height__",
+        { height: contentHeight, width: contentWidth },
+      )
+      .catch(() => {});
+  };
+  const scheduleHeightReport = () => {
+    if (heightReportTimer != null) {
+      return;
+    }
+    // Offscreen frames can suspend animation callbacks while their content loads.
+    heightReportTimer = globalThis.setTimeout(() => {
+      heightReportTimer = null;
+      reportHeight();
+    }, 0);
+  };
+
+  const resizeObserver = new ResizeObserver(scheduleHeightReport);
+  const observeBodyChildren = () => {
+    for (const element of document.body.children) {
+      resizeObserver.observe(element);
+    }
+  };
+  resizeObserver.observe(document.body);
+  observeBodyChildren();
+  new MutationObserver(() => {
+    observeBodyChildren();
+    scheduleHeightReport();
+  }).observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["style", "class", "height", "width"],
+  });
+  globalThis.addEventListener("resize", scheduleHeightReport);
+  reportHeight();
+})();
+</script>
+<style id="codex-visualization-document-scrollbar">html,body{scrollbar-width:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important}</style>
+
+
+
+</body></html>
