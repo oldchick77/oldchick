@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>반응속도 테스트</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Malgun Gothic", sans-serif;
+    text-align: center;
+    background: #f4f5f7;
+}
+
+#game {
+    width: 100%;
+    min-height: 100vh;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #e84d4d;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+#instruction {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 30px 0;
+}
+
+#subText {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+#round {
+    font-size: 18px;
+    margin-top: 35px;
+}
+
+#result {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+    line-height: 1.6;
+}
+
+#history {
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 2;
+}
+
+#restart {
+    margin-top: 25px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 15px;
+    background: white;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+}
+
+#restart:active {
+    transform: scale(0.95);
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+    <h1>⚡ 반응속도 테스트</h1>
+
+    <div id="instruction">
+        화면을 터치하세요!
+    </div>
+
+    <div id="subText">
+        초록색으로 바뀌면 최대한 빠르게 터치하세요.
+    </div>
+
+    <div id="round">
+        준비 단계
+    </div>
+
+    <div id="result"></div>
+
+    <div id="history"></div>
+
+    <button id="restart">다시 도전하기</button>
+
+</div>
+
+<script>
+
+// 게임에 필요한 변수
+let state = "ready";
+
+let round = 0;
+
+let startTime = 0;
+
+let waitTimer = null;
+
+let results = [];
+
+
+// HTML 요소 가져오기
+const game = document.getElementById("game");
+
+const instruction = document.getElementById("instruction");
+
+const subText = document.getElementById("subText");
+
+const roundText = document.getElementById("round");
+
+const resultText = document.getElementById("result");
+
+const historyText = document.getElementById("history");
+
+const restartBtn = document.getElementById("restart");
+
+
+// 게임 초기화
+function resetGame() {
+
+    clearTimeout(waitTimer);
+
+    state = "ready";
+
+    round = 0;
+
+    results = [];
+
+    game.style.background = "#e84d4d";
+
+    instruction.textContent = "화면을 터치하세요!";
+
+    subText.textContent =
+        "초록색으로 바뀌면 최대한 빠르게 터치하세요.";
+
+    roundText.textContent = "준비 단계";
+
+    resultText.textContent = "";
+
+    historyText.textContent = "";
+
+    restartBtn.style.display = "none";
+
+}
+
+
+// 게임 시작
+function startGame() {
+
+    state = "waiting";
+
+    game.style.background = "#e84d4d";
+
+    instruction.textContent = "기다리세요...";
+
+    subText.textContent = "초록색으로 바뀔 때까지 기다리세요!";
+
+    roundText.textContent =
+        (round + 1) + " / 5 번째 테스트";
+
+    resultText.textContent = "";
+
+    // 2초~5초 사이 랜덤 시간
+    const randomTime = Math.floor(
+        Math.random() * 3000
+    ) + 2000;
+
+    waitTimer = setTimeout(function() {
+
+        state = "green";
+
+        game.style.background = "#24ad68";
+
+        instruction.textContent = "지금 터치하세요!";
+
+        subText.textContent = "빠르게!";
+
+        // 반응속도 측정 시작
+        startTime = performance.now();
+
+    }, randomTime);
+
+}
+
+
+// 화면 터치 처리
+function handleTouch() {
+
+    if (state === "ready") {
+
+        startGame();
+
+    }
+
+    else if (state === "waiting") {
+
+        // 빨간색일 때 누르면 실패
+        clearTimeout(waitTimer);
+
+        state = "false";
+
+        game.style.background = "#e84d4d";
+
+        instruction.textContent = "너무 빨라요! 😅";
+
+        subText.textContent =
+            "초록색으로 바뀐 다음에 눌러야 합니다.";
+
+        roundText.textContent =
+            (round + 1) + " / 5 번째 테스트";
+
+        resultText.textContent = "";
+
+        // 잠시 후 다시 시도
+        setTimeout(function() {
+
+            if (state === "false") {
+
+                state = "ready";
+
+                instruction.textContent = "다시 터치하세요!";
+
+                subText.textContent =
+                    "이번에는 초록색이 될 때까지 기다리세요.";
+
+            }
+
+        }, 1200);
+
+    }
+
+    else if (state === "green") {
+
+        // 초록색일 때 반응속도 계산
+        const reactionTime = Math.round(
+            performance.now() - startTime
+        );
+
+        results.push(reactionTime);
+
+        round++;
+
+        state = "result";
+
+        game.style.background = "#3478c7";
+
+        instruction.textContent =
+            reactionTime + " ms";
+
+        subText.textContent =
+            "이번 반응속도입니다!";
+
+        roundText.textContent =
+            round + " / 5 번째 테스트 완료";
+
+        historyText.innerHTML +=
+            round + "회차 : " + reactionTime + " ms<br>";
+
+        // 5회 측정 완료
+        if (round === 5) {
+
+            showFinalResult();
+
+        } else {
+
+            resultText.textContent =
+                "다음 테스트를 준비하세요!";
+
+            setTimeout(function() {
+
+                if (state === "result") {
+
+                    state = "ready";
+
+                    instruction.textContent =
+                        "화면을 터치하세요!";
+
+                    subText.textContent =
+                        "다음 테스트를 시작합니다.";
+
+                }
+
+            }, 1000);
+
+        }
+
+    }
+
+}
+
+
+// 최종 평균 계산
+function showFinalResult() {
+
+    state = "finished";
+
+    const total = results.reduce(
+        (sum, value) => sum + value, 0
+    );
+
+    const average = Math.round(total / 5);
+
+    instruction.textContent = "테스트 완료! 🎉";
+
+    subText.textContent = "5회 측정 결과";
+
+    resultText.textContent =
+        "평균 반응속도 : " + average + " ms";
+
+    restartBtn.style.display = "block";
+
+}
+
+
+// 화면 터치 이벤트
+game.addEventListener("pointerdown", function(event) {
+
+    // 다시 도전하기 버튼은 별도 처리
+    if (event.target === restartBtn) return;
+
+    handleTouch();
+
+});
+
+
+// 다시 도전하기 버튼
+restartBtn.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+    resetGame();
+
+});
+
+
+// 처음 실행
+resetGame();
+
+</script>
+
+</body>
+</html>
