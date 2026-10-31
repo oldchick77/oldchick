@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko-KR" class="transparentSkybridgeBackground desktopSkybridge dark" data-theme="dark" style="color-scheme: dark; --safe-area-inset-top: 0px; --safe-area-inset-bottom: 0px; --safe-area-inset-left: 0px; --safe-area-inset-right: 0px;"><head><style>@layer sandbox-defaults{html,body,#root{margin:0;padding:0}}</style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f8f7">
+<title>BATTERY LAB — AI 배터리 예측 게임</title>
+<style>
+:root{font-family:Pretendard,'Noto Sans KR',system-ui,sans-serif;color:#1c2927;background:#f5f8f7}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.wrap{max-width:1140px;margin:0 auto;padding:25px 20px 60px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:32px}.brand{font-weight:900;letter-spacing:-.4px;font-size:20px}.brand span{display:inline-grid;place-items:center;background:#0ca66d;color:#fff;width:36px;height:36px;border-radius:11px;margin-right:7px}.tag{background:#e5f8ee;color:#058457;font-weight:800;font-size:12px;padding:8px 12px;border-radius:100px}.eyebrow{color:#069c64;font-size:12px;font-weight:900;letter-spacing:1.5px}h1{font-size:clamp(30px,5vw,47px);letter-spacing:-2px;margin:9px 0;color:#078c62}h2{font-size:19px;margin:0 0 9px;letter-spacing:-.5px}p{line-height:1.7}.intro{color:#536d62;font-size:14px;margin:7px 0 25px}.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}.panel{background:#fff;border:1px solid #e1e9e5;border-radius:17px;padding:22px;margin-bottom:16px}.muted{font-size:13px;color:#71817b;line-height:1.7}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.stat{background:white;border:1px solid #e1e9e5;padding:15px;border-radius:13px}.stat small{display:block;color:#82918a;font-size:12px}.stat b{display:block;font-size:21px;margin-top:6px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}.control label{display:block;font-size:13px;font-weight:750}.control input[type=range]{width:100%;accent-color:#09a66d;cursor:pointer;margin:12px 0 3px}.value{font-size:13px;font-weight:900;color:#05895a}.btn{border-radius:10px;padding:12px 16px;border:1px solid #d7e3dc;background:#fff;color:#27433a;font-weight:850}.btn.primary{background:#0aa46b;border-color:#0aa46b;color:#fff}.btn:hover:not(:disabled){filter:brightness(.96)}.btn.full{width:100%}.buttons{display:flex;gap:9px;flex-wrap:wrap}.guide{border-radius:12px;padding:14px 16px;background:#edf9f3;color:#31674f;font-size:13px;line-height:1.75}.battery{position:relative;width:168px;height:67px;border:4px solid #29443a;border-radius:11px;padding:5px;margin:11px auto 0}.battery:after{content:'';position:absolute;right:-13px;top:19px;width:10px;height:23px;border-radius:0 5px 5px 0;background:#29443a}.battery-fill{height:100%;width:70%;background:linear-gradient(90deg,#66d9a0,#0bad70);border-radius:4px;transition:width .3s}.battery-text{position:absolute;inset:0;display:grid;place-items:center;font-weight:900;color:#192e27;text-shadow:0 1px white;font-size:24px}.chart-wrap{padding:10px;background:#fcfefd;border:1px solid #eaf0ec;border-radius:12px}canvas{display:block;width:100%;height:240px}.data-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:13px;max-height:155px;overflow:auto}.data-item{font-size:11px;background:#f2f7f4;padding:9px;border-radius:8px;color:#526960}.formula{background:#f3f7f5;border-radius:10px;padding:12px;font-size:13px;line-height:1.8}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:13px 0}.metric{border-radius:10px;background:#f7f9f8;padding:12px}.metric small{display:block;color:#89938e;font-size:11px}.metric strong{display:block;font-size:19px;margin-top:6px}.mission{border:1px solid #b9e8cd;background:#f0faf4;padding:15px;border-radius:12px;font-size:13px;line-height:1.8}.guess{width:100%;border:1px solid #d4e0d9;border-radius:9px;padding:12px;outline:none;margin:8px 0}.guess:focus{border-color:#0aad71}.result{min-height:43px;font-size:13px;font-weight:750;line-height:1.7;margin-top:12px}.steps{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}.step{font-size:12px;color:#76857f;padding:8px 11px;border:1px solid #e0e8e3;border-radius:100px;background:white}.step.active{color:#078f5c;border-color:#a1dfbd;background:#e8f8ef;font-weight:850}.bottom{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:8px}.note{font-size:12px;color:#89948e;text-align:right}.progress{height:8px;background:#edf1ee;border-radius:10px;overflow:hidden;margin:12px 0 6px}.progress>div{height:100%;width:0;background:#0eaa70;transition:width .2s}.hidden{display:none!important}.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 20px}.intro-card{background:#fff;border:1px solid #dce9e2;border-radius:15px;padding:19px 20px}.intro-card h2{color:#078c62;margin-bottom:8px}.intro-card p{margin:0;color:#4e655b;font-size:13px;line-height:1.85}.intro-card ul{padding-left:19px;margin:8px 0 0;color:#4e655b;font-size:13px;line-height:1.8}.intro-card code{font-family:ui-monospace,monospace;font-size:12px;background:#edf7f2;border-radius:4px;padding:2px 4px}@media(max-width:790px){.layout,.intro-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.wrap{padding:20px 12px 45px}.panel{padding:16px}.controls{gap:12px}canvas{height:210px}.data-list{grid-template-columns:repeat(2,1fr)}}
+</style>
+<style>html, body, #root {
+      margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0;
+      
+    }
+html,body,#root{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}html,body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Helvetica Neue,Arial,sans-serif!important}button,input,textarea,select{font-family:inherit}html{background-color:transparent}html.chatgptOled.dark,html.mobileSkybridge.dark{background-color:#000}@supports (font: -apple-system-body){html.mobileSkybridge{font:-apple-system-body}}html.desktopSkybridge.dark{background-color:#1e1e1e}html.transparentSkybridgeBackground,html.transparentSkybridgeBackground.dark{background-color:transparent}html.androidSkybridge,html.androidSkybridge body,html.androidSkybridge *{-webkit-tap-highlight-color:rgba(255,255,255,0)}html.androidSkybridge *::selection,html.androidSkybridge *::-moz-selection{background:#fff0;color:inherit}</style></head>
+<body><div class="wrap">
+<header><div class="brand"><span>🔋</span> BATTERY LAB</div><span class="tag">AI 예측 챌린지</span></header>
+<div class="eyebrow">TRAIN · PREDICT · IMPROVE</div><h1>AI 배터리 잔여시간 예측</h1>
+<p class="intro">배터리 잔량뿐 아니라 화면 밝기, 기기 부하, 온도도 사용시간에 영향을 줍니다. 여러 조건에서 실험 데이터를 모아 AI를 훈련시키고, 예측 미션에 도전해 보세요.</p>
+<div class="intro-grid">
+  <section class="intro-card" aria-labelledby="purpose-title"><h2 id="purpose-title">💡 게임의 제작 의의</h2><p>배터리 잔량이 같아도 사용 환경에 따라 실제 이용시간이 달라집니다. 이 게임은 화면 밝기·CPU 부하·온도처럼 여러 요인이 함께 작용하는 상황을 가상으로 실험하고, 수집한 데이터를 이용해 <b>AI가 소비전력을 예측하는 과정</b>을 체험하도록 만들었습니다. 예측값과 실험값의 오차를 비교하면서 데이터의 다양성과 선형회귀의 역할을 이해하는 것이 목표입니다.</p></section>
+  <section class="intro-card" aria-labelledby="calculation-title"><h2 id="calculation-title">🧮 잔여시간 계산 기준</h2><p><b>초기 설정:</b> 배터리 완충 에너지 20Wh, 기준 온도 25°C. 잔량은 10~100%, 밝기·CPU 부하는 각각 10~100%, 온도는 0~45°C에서 조절합니다.</p><ul><li><b>남은 에너지</b> = 20Wh × 잔량 비율 × 잔량·온도 보정계수</li><li><b>소비전력</b> = 기본 1.1W + 밝기 영향 + CPU 사용량 영향 + 온도 영향</li><li><b>예상 시간(분)</b> = 남은 에너지 ÷ 소비전력 × 60</li><li>가상 측정값에는 소비전력 기준 최대 ±4%의 오차를 추가합니다.</li></ul><details style="margin-top:10px"><summary style="cursor:pointer;color:#078c62;font-weight:800;font-size:13px">계산식과 보정계수 자세히 보기</summary><div class="formula" style="margin-top:8px">B = 밝기(%) ÷ 100, L = CPU 부하(%) ÷ 100<br>T = (온도 − 25) ÷ 25<br><b>전력(W) = 1.1 + 2.2B + 3.1L + 1.8L² + T²</b><br>온도보정 = 1 − 0.008×max(0,15−온도) − 0.006×max(0,온도−35)<br>잔량보정 = 0.92 + 0.08×잔량비율<br><b>남은 에너지(Wh) = 20×잔량비율×온도보정×잔량보정</b><br>잔여시간(분) = 60×남은 에너지÷전력</div></details><p style="margin-top:8px"><b>주의:</b> 보정계수와 전력 소비 계수는 실제 기기 실험값이 아닌 교육용 임의 설정입니다. 학습 데이터의 ‘측정’은 가상 시뮬레이션을 뜻합니다.</p></section>
+</div>
+<div class="stats"><div class="stat"><small>수집 데이터</small><b id="count">9개</b></div><div class="stat"><small>AI 학습 오차</small><b id="mae">0.7분</b></div><div class="stat"><small>현재 미션</small><b id="level">1 / 3</b></div><div class="stat"><small>총점</small><b id="score">98점</b></div></div>
+<div class="steps"><span class="step" id="step1">① 조건 바꾸며 실험</span><span class="step" id="step2">② AI 학습</span><span class="step active" id="step3">③ 잔여시간 맞히기</span></div>
+<div class="layout"><main>
+<section class="panel"><div class="row"><div><h2>① 가상 배터리 실험</h2><p class="muted">조건을 설정하고 측정해 보세요. 가능한 한 다양한 조합을 시도하면 좋아요.</p></div></div>
+<div class="battery"><div class="battery-fill" id="fill" style="width: 60%;"></div><div class="battery-text" id="battery-label">60%</div></div>
+<div class="controls" style="margin-top:23px">
+<div class="control"><div class="row"><label for="soc">배터리 잔량</label><span class="value" id="soc-val">60%</span></div><input id="soc" type="range" min="10" max="100" value="70" step="10"></div>
+<div class="control"><div class="row"><label for="brightness">화면 밝기</label><span class="value" id="brightness-val">20%</span></div><input id="brightness" type="range" min="10" max="100" value="50" step="10"></div>
+<div class="control"><div class="row"><label for="load">기기 사용량(CPU 부하)</label><span class="value" id="load-val">80%</span></div><input id="load" type="range" min="10" max="100" value="50" step="10"></div>
+<div class="control"><div class="row"><label for="temp">주변 온도</label><span class="value" id="temp-val">30°C</span></div><input id="temp" type="range" min="0" max="45" value="25" step="5"></div>
+</div><div class="buttons" style="margin-top:16px"><button class="btn primary" id="sample" disabled="">+ 실험 데이터 수집</button><button class="btn" id="reset-data" disabled="">데이터 초기화</button></div><p class="muted" id="sample-tip">학습 가능! 다양한 조건일수록 예측이 개선될 수 있어요.</p><div id="sample-list" class="data-list"><div class="data-item" title="밝기 50%, 부하 50%">#1 · 잔량 70% · 25°C · 200분</div><div class="data-item" title="밝기 50%, 부하 50%">#2 · 잔량 90% · 5°C · 204분</div><div class="data-item" title="밝기 100%, 부하 100%">#3 · 잔량 10% · 45°C · 12분</div><div class="data-item" title="밝기 100%, 부하 50%">#4 · 잔량 10% · 45°C · 18분</div><div class="data-item" title="밝기 100%, 부하 80%">#5 · 잔량 10% · 45°C · 14분</div><div class="data-item" title="밝기 100%, 부하 80%">#6 · 잔량 10% · 10°C · 15분</div><div class="data-item" title="밝기 20%, 부하 80%">#7 · 잔량 10% · 10°C · 19분</div><div class="data-item" title="밝기 20%, 부하 80%">#8 · 잔량 60% · 10°C · 119분</div><div class="data-item" title="밝기 20%, 부하 80%">#9 · 잔량 60% · 30°C · 134분</div></div></section>
+<section class="panel"><h2>실험 데이터와 AI 예측 비교</h2><p class="muted">점 하나가 실험 하나를 나타냅니다. 대각선에 가까울수록 AI 예측이 정확해요.</p><div class="chart-wrap"><canvas id="chart" aria-label="실제 사용시간과 AI 예측시간 비교 그래프" width="412" height="265"></canvas></div></section>
+</main><aside>
+<section class="panel"><h2>② 선형회귀로 AI 학습하기</h2><p class="muted">AI는 여러 조건의 영향을 한꺼번에 분석해 <b>소비전력(W)</b>을 예측합니다. 그다음 남은 배터리 에너지로 사용시간을 계산해요.</p>
+<div class="formula"><b>사용시간 = 남은 에너지 ÷ 소비전력</b><br>예: 10Wh ÷ 5W = 2시간<br><span style="color:#73887e">AI가 학습하는 것: 밝기·부하·온도가 전력 소비에 미치는 영향</span></div>
+<div class="metrics"><div class="metric"><small>AI 예상 소비전력</small><strong id="power">5.17 W</strong></div><div class="metric"><small>학습 데이터 정확도</small><strong id="accuracy">99.1%</strong></div></div>
+<button class="btn primary full" id="train" disabled="">AI 학습 시작</button><div class="progress"><div id="bar" style="width: 100%;"></div></div><p class="muted" id="train-status">학습 완료! 새로운 조건에서 사용시간을 예측해 보세요.</p></section>
+<section class="panel"><h2>③ AI 예측 미션</h2><div class="mission" id="mission"><b>미션 1: 고사양 게임 실행</b><br>배터리 80% · 밝기 90% · 부하 90% · 온도 40°C<br>AI 예측: <b>119분</b><br>실제 사용시간은 몇 분일까요?</div><p class="muted" style="margin-bottom:3px">예상 잔여 사용시간 (분)</p><input class="guess" id="guess" type="number" step="1" min="0" placeholder="예: 145" disabled=""><button class="btn primary full" id="submit" disabled="">예측 제출</button><div class="result" id="result" aria-live="polite">정답 119분! 예측 오차 0.8분 · +98점</div><button class="btn full" id="next">다음 미션 →</button></section>
+<section class="panel"><h2>왜 단순 비례가 아닐까?</h2><p class="muted">배터리가 50% 남았다는 사실만으로 사용시간이 정해지지는 않아요. 밝기·기기 부하가 커지면 전력 소비가 증가하고, 매우 춥거나 더운 환경에서는 배터리의 유효 에너지도 줄어들 수 있어요.</p><div class="guide"><b>머신러닝 핵심</b><br>입력: 잔량·밝기·부하·온도<br>학습: 실험값과 예측값 사이의 오차 줄이기<br>결과: 새 조건에서 사용시간 예측</div><p class="muted">이 게임은 교육용 가상 데이터와 직접 구현한 다중 선형회귀를 사용합니다. 실제 배터리 수명이나 안전성을 판단하는 용도로 사용하지 마세요.</p></section>
+</aside></div>
+<div class="bottom"><button class="btn" id="copy">HTML 코드 복사</button><button class="btn" id="download">HTML 다운로드</button></div><p class="note">외부 라이브러리·인터넷 연결 없이 실행되는 단일 HTML 게임</p>
+</div><script>
+(() => {
+const $=id=>document.getElementById(id);
+const INPUTS=['soc','brightness','load','temp'];
+const tasks=[{soc:80,brightness:90,load:90,temp:40,name:'고사양 게임 실행'},{soc:45,brightness:20,load:15,temp:10,name:'추운 날 저전력 모드'},{soc:65,brightness:70,load:65,temp:30,name:'영상 시청과 멀티태스킹'}];
+let samples=[],model=null,score=0,taskIndex=0,done=false,training=false,missionReady=false;
+function config(){return Object.fromEntries(INPUTS.map(k=>[k,Number($(k).value)]))}
+// 교육용 가상 배터리 모형: 실제 장치의 전력/방전 특성과 다를 수 있습니다.
+function actualPower(c){let b=c.brightness/100,l=c.load/100,t=(c.temp-25)/25;return 1.1+2.2*b+3.1*l+1.8*l*l+1.0*t*t}
+function usableEnergy(c){const cold=Math.max(0,15-c.temp)*.008,hot=Math.max(0,c.temp-35)*.006;return 20*(c.soc/100)*(1-cold-hot)*(0.92+.08*c.soc/100)}
+function trueMinutes(c){return 60*usableEnergy(c)/actualPower(c)}
+// 회귀 입력: 밝기, 부하, 부하의 제곱, 온도차의 제곱. 선형회귀는 각 영향의 크기를 학습합니다.
+function features(c){const l=c.load/100,t=(c.temp-25)/25;return [1,c.brightness/100,l,l*l,t*t]}
+function predictedPower(c){if(!model)return null;const x=features(c);return Math.max(.5,x.reduce((s,v,i)=>s+model[i]*v,0)*10)}
+function predictMinutes(c){return 60*usableEnergy(c)/predictedPower(c)}
+function currentMAE(){return samples.reduce((s,p)=>s+Math.abs(p.minutes-predictMinutes(p.c)),0)/samples.length}
+function setStep(n){for(let i=1;i<=3;i++)$('step'+i).classList.toggle('active',i===n)}
+function redrawStats(){const c=config();INPUTS.forEach(k=>$(k+'-val').textContent=c[k]+(k==='temp'?'°C':'%'));$('fill').style.width=c.soc+'%';$('battery-label').textContent=c.soc+'%';$('count').textContent=samples.length+'개';$('score').textContent=score+'점';$('level').textContent=(taskIndex+1)+' / 3';$('mae').textContent=model?currentMAE().toFixed(1)+'분':'—';$('power').textContent=model?predictedPower(c).toFixed(2)+' W':'—';const a=model?Math.max(0,100-currentMAE()/Math.max(1,samples.reduce((s,p)=>s+p.minutes,0)/samples.length)*100):0;$('accuracy').textContent=model?a.toFixed(1)+'%':'—';$('train').disabled=samples.length<8||training||done;$('train').textContent=training?'AI 학습 중...':'AI 학습 시작'+(samples.length<8?' (8개 이상 필요)':'');draw()}
+function sample(){if(training||done)return;const c=config();const power=actualPower(c)*(1+(Math.random()-.5)*.08);const minutes=60*usableEnergy(c)/power;samples.push({c,power,minutes});model=null;missionReady=false;$('submit').disabled=true;$('guess').disabled=true;$('mission').textContent='새 데이터가 생겼어요. AI를 다시 학습시켜 주세요.';$('train-status').textContent='새 측정값이 추가됐습니다.';$('bar').style.width='0%';setStep(1);renderSamples();redrawStats()}
+function renderSamples(){$('sample-list').replaceChildren();samples.slice(-12).forEach((p,i)=>{const d=document.createElement('div');d.className='data-item';d.textContent=`#${samples.length-Math.min(12,samples.length)+i+1} · 잔량 ${p.c.soc}% · ${p.c.temp}°C · ${p.minutes.toFixed(0)}분`;d.title=`밝기 ${p.c.brightness}%, 부하 ${p.c.load}%`; $('sample-list').append(d)});$('sample-tip').textContent=samples.length<8?`학습까지 ${8-samples.length}개 더 필요해요. 밝기, 부하, 온도를 다양하게 바꿔 보세요.`:'학습 가능! 다양한 조건일수록 예측이 개선될 수 있어요.'}
+function clear(){if(training||done)return;samples=[];model=null;missionReady=false;$('bar').style.width='0%';$('train-status').textContent='아직 학습 전입니다.';$('mission').textContent='먼저 실험 데이터를 8개 이상 모아 AI를 학습시켜 주세요.';$('submit').disabled=true;$('guess').disabled=true;$('result').textContent='';setStep(1);renderSamples();redrawStats()}
+async function train(){if(samples.length<8||training||done)return;training=true;model=[0,0,0,0,0];missionReady=false;setStep(2);redrawStats();for(let block=0;block<25;block++){for(let j=0;j<80;j++){const gradient=[0,0,0,0,0];samples.forEach(p=>{const x=features(p.c);const error=x.reduce((s,v,i)=>s+v*model[i],0)-p.power/10;x.forEach((v,i)=>gradient[i]+=2*error*v)});model=model.map((w,i)=>w-.09*gradient[i]/samples.length)}$('bar').style.width=((block+1)/25*100)+'%';$('train-status').textContent=`학습 ${Math.round((block+1)/25*100)}% · 오차를 줄이는 중`;redrawStats();await new Promise(r=>setTimeout(r,22))}training=false;missionReady=true;$('train-status').textContent='학습 완료! 새로운 조건에서 사용시간을 예측해 보세요.';$('guess').disabled=false;$('submit').disabled=false;setStep(3);updateMission();redrawStats()}
+function updateMission(){const t=tasks[taskIndex];$('mission').innerHTML=`<b>미션 ${taskIndex+1}: ${t.name}</b><br>배터리 ${t.soc}% · 밝기 ${t.brightness}% · 부하 ${t.load}% · 온도 ${t.temp}°C<br>AI 예측: <b>${predictMinutes(t).toFixed(0)}분</b><br>실제 사용시간은 몇 분일까요?`;}
+function submit(){if(!missionReady||done)return;const raw=$('guess').value.trim();if(!raw){$('result').textContent='예상 시간을 입력해 주세요.';return}const guess=Number(raw);if(!Number.isFinite(guess)||guess<0){$('result').textContent='0 이상의 숫자를 입력하세요.';return}const answer=trueMinutes(tasks[taskIndex]);const error=Math.abs(guess-answer);const earned=Math.max(0,100-Math.round(error*2));score+=earned;done=true;$('result').textContent=`정답 ${answer.toFixed(0)}분! 예측 오차 ${error.toFixed(1)}분 · +${earned}점`;$('submit').disabled=true;$('guess').disabled=true;$('sample').disabled=true;$('reset-data').disabled=true;$('next').classList.remove('hidden');$('next').textContent=taskIndex===2?'최종 결과 보기':'다음 미션 →';redrawStats()}
+function next(){if(taskIndex===2){$('mission').innerHTML=`🎉 <b>모든 미션 완료!</b><br>최종 점수: <b>${score} / 300점</b><br>측정한 데이터 수: ${samples.length}개`;$('next').textContent='다시 시작';$('next').onclick=()=>{score=0;taskIndex=0;done=false;missionReady=false;$('sample').disabled=false;$('reset-data').disabled=false;$('next').classList.add('hidden');$('next').onclick=next;clear();redrawStats()};return}taskIndex++;done=false;$('sample').disabled=false;$('reset-data').disabled=false;$('guess').value='';$('guess').disabled=false;$('submit').disabled=false;$('result').textContent='';$('next').classList.add('hidden');updateMission();redrawStats()}
+function draw(){const canvas=$('chart');const rect=canvas.getBoundingClientRect();const w=Math.max(250,rect.width),h=Math.max(180,rect.height),ratio=window.devicePixelRatio||1;canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);const ctx=canvas.getContext('2d');ctx.scale(ratio,ratio);ctx.clearRect(0,0,w,h);let max=Math.max(120,...samples.map(p=>Math.max(p.minutes,model?predictMinutes(p.c):0)))*1.12;const left=42,right=18,top=17,bottom=38;const X=v=>left+v/max*(w-left-right),Y=v=>h-bottom-v/max*(h-top-bottom);ctx.strokeStyle='#e6eeea';ctx.fillStyle='#84968d';ctx.font='11px system-ui';for(let i=0;i<=4;i++){const v=max*i/4;ctx.beginPath();ctx.moveTo(X(v),top);ctx.lineTo(X(v),h-bottom);ctx.moveTo(left,Y(v));ctx.lineTo(w-right,Y(v));ctx.stroke();ctx.fillText(Math.round(v).toString(),X(v)-8,h-bottom+16);ctx.fillText(Math.round(v).toString(),8,Y(v)+4)}ctx.fillText('실제 (분)',w-65,h-5);ctx.fillText('예측 (분)',5,11);ctx.strokeStyle='#0ba76c';ctx.lineWidth=2;ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(X(0),Y(0));ctx.lineTo(X(max),Y(max));ctx.stroke();ctx.setLineDash([]);samples.forEach(p=>{const x=X(p.minutes),y=Y(model?predictMinutes(p.c):p.minutes);ctx.beginPath();ctx.fillStyle=model?'#3476db':'#9caea4';ctx.arc(x,y,4.5,0,Math.PI*2);ctx.fill()})}
+INPUTS.forEach(id=>$(id).addEventListener('input',redrawStats));$('sample').addEventListener('click',sample);$('reset-data').addEventListener('click',clear);$('train').addEventListener('click',train);$('submit').addEventListener('click',submit);$('next').addEventListener('click',next);window.addEventListener('resize',draw);renderSamples();redrawStats();
+function source(){return '<!DOCTYPE html>\n'+document.documentElement.outerHTML}function flash(button,s){const old=button.textContent;button.textContent=s;setTimeout(()=>button.textContent=old,1700)}
+$('copy').addEventListener('click',async function(){try{await navigator.clipboard.writeText(source());flash(this,'✓ 복사 완료')}catch{const t=document.createElement('textarea');t.value=source();document.body.append(t);t.select();const ok=document.execCommand('copy');t.remove();flash(this,ok?'✓ 복사 완료':'복사 실패')}});
+$('download').addEventListener('click',function(){const u=URL.createObjectURL(new Blob([source()],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=u;a.download='ai_battery_game.html';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);flash(this,'✓ 다운로드 시작')});
+})();
+</script>
+<script>globalThis.__codexVisualizationInitialGlobals={"statePersistence":"none","stateModelContext":"none","visualizationStyleVariables":{"--accent":"rgb(19, 52, 99)","--accent-foreground":"rgb(44, 103, 197)","--background":"rgb(0, 0, 0)","--border":"rgba(255, 255, 255, 0.15)","--border-strong":"rgba(255, 255, 255, 0.2)","--card":"color-mix(in oklab, rgb(237, 237, 237) 5%, transparent)","--card-foreground":"rgb(237, 237, 237)","--corner-shape":"round","--control-spacing":"12px","--cursor-interaction":"pointer","--destructive":"rgb(255, 133, 73)","--font-mono":"ui-monospace, SFMono-Regular, \"SF Mono\", menlo, consolas, \"Liberation Mono\", monospace","--font-sans":"-apple-system-body, ui-sans-serif, -apple-system, system-ui, \"Segoe UI\", Helvetica, \"Apple Color Emoji\", Arial, sans-serif, \"Segoe UI Emoji\", \"Segoe UI Symbol\"","--font-size-base":"16px","--font-weight-normal":"400","--foreground":"rgb(237, 237, 237)","--input":"rgba(255, 255, 255, 0.2)","--muted":"color-mix(in srgb, rgb(237, 237, 237) 10%, transparent)","--muted-foreground":"rgb(175, 175, 175)","--popover":"rgb(48, 48, 48)","--popover-foreground":"rgb(237, 237, 237)","--primary":"rgb(44, 103, 197)","--primary-foreground":"rgb(13, 13, 13)","--radius":"8px","--radius-2xl":"16px","--radius-lg":"8px","--radius-md":"6px","--radius-sm":"4px","--ring":"rgb(58, 131, 247)","--secondary":"rgb(48, 48, 48)","--secondary-foreground":"rgb(237, 237, 237)","--blue":"rgb(58, 131, 247)","--orange":"rgb(251, 106, 34)","--green":"rgb(64, 201, 119)","--red":"rgb(255, 103, 100)","--purple":"rgb(173, 123, 249)","--yellow":"rgb(255, 210, 64)","--visualize-paint-gutter":"0px","--viz-series-1":"rgb(44, 103, 197)","--viz-series-2":"#f6d459","--viz-series-3":"#f28ec0","--viz-series-4":"#54ccc2","--viz-series-5":"#71d689","--viz-series-6":"#f79951"},"visualizationTheme":"dark"};</script>
+<style id="codex-visualization-host-theme">:root {}</style>
+<script>
+(() => {
+  // Host colors are defaults; later authored styles can give the same names
+  // their own meaning (for example, --muted as a chart's label color).
+  const hostStyles = document.getElementById("codex-visualization-host-theme");
+  const hostStyle = hostStyles.sheet.cssRules[0].style;
+  // Typography, geometry and interaction cursors still follow the host.
+  const styleForProperty = (property) =>
+    /^--(?:font-|radius|corner-shape$|control-spacing$|cursor-interaction$|icon-size$|visualize-paint-gutter$)/.test(property)
+      ? document.documentElement.style
+      : hostStyle;
+  const initialGlobals =
+    globalThis.__codexVisualizationInitialGlobals ?? globalThis.openai;
+  delete globalThis.__codexVisualizationInitialGlobals;
+  if (initialGlobals?.statePersistence != null) {
+    globalThis.openai ??= {};
+    globalThis.openai.statePersistence = initialGlobals.statePersistence;
+    globalThis.openai.stateModelContext = initialGlobals.stateModelContext ?? "none";
+  }
+  if (!false) {
+    return;
+  }
+  let appliedProperties = [];
+  const applyHostStyleVariables = (styleVariables) => {
+    if (styleVariables == null || typeof styleVariables !== "object") {
+      return;
+    }
+    for (const property of appliedProperties) {
+      styleForProperty(property).removeProperty(property);
+    }
+    appliedProperties = [];
+    for (const [property, value] of Object.entries(styleVariables)) {
+      if (property.startsWith("--") && typeof value === "string") {
+        styleForProperty(property).setProperty(property, value);
+        appliedProperties.push(property);
+      }
+    }
+  };
+
+  const syncHostStyles = (globals) => {
+    applyHostStyleVariables(globals?.visualizationStyleVariables);
+    const sandboxDocument = globalThis.frameElement?.ownerDocument;
+    if (sandboxDocument != null && globals?.visualizationTheme != null) {
+      let colorSchemeMeta = sandboxDocument.querySelector(
+        'meta[name="color-scheme"]',
+      );
+      if (colorSchemeMeta == null) {
+        colorSchemeMeta = sandboxDocument.createElement("meta");
+        colorSchemeMeta.name = "color-scheme";
+        sandboxDocument.head.appendChild(colorSchemeMeta);
+      }
+      colorSchemeMeta.content = globals.visualizationTheme;
+      sandboxDocument.documentElement.style.colorScheme =
+        globals.visualizationTheme;
+      // Paint the host surface behind transparent saved visualization documents.
+      sandboxDocument.documentElement.style.backgroundColor =
+        hostStyle.getPropertyValue("--background");
+    }
+  };
+
+  syncHostStyles(initialGlobals);
+  globalThis.addEventListener("openai:set_globals", (event) => {
+    syncHostStyles(event.detail?.globals);
+  });
+})();
+</script>
+
+
+<script>
+(() => {
+  const reportEnvironmentError = (value) => {
+    const error = value instanceof Error ? value : new Error(String(value));
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_error__",
+        {
+          message: error.message,
+          name: error.name,
+          stack: error.stack,
+        },
+      )
+      .catch(() => {});
+  };
+
+  globalThis.addEventListener("error", (event) => {
+    if (event.target?.localName === "script") {
+      // A script's own onerror may render a fallback or load an alternative.
+      // Let that handler run; failures it throws still reach the global error path.
+      const handlesError = typeof event.target.onerror === "function";
+      globalThis.queueMicrotask(() => {
+        if (!handlesError && !event.defaultPrevented) {
+          reportEnvironmentError("Visualization script could not be loaded");
+        }
+      });
+    } else if (event.target === globalThis) {
+      // The browser defers resize notifications to another frame; no script threw.
+      if (event.error == null && (
+        event.message === "ResizeObserver loop completed with undelivered notifications." ||
+        event.message === "ResizeObserver loop limit exceeded"
+      )) {
+        return;
+      }
+      reportEnvironmentError(event.error ?? event.message);
+    }
+  }, true);
+  globalThis.addEventListener("unhandledrejection", (event) => {
+    reportEnvironmentError(event.reason);
+  });
+})();
+</script>
+<script id="codex-visualization-variants">
+(() => {
+  let previousSnapshot = "[]";
+  let roots = [];
+  const report = () => {
+    roots = Array.from(
+      document.querySelectorAll(".viz-carousel[data-active-variant]"),
+    ).slice(0, 32);
+    const selectedVariants = roots.flatMap((root, carousel) => {
+      const variant = root.dataset.activeVariant;
+      const label = root.getAttribute("aria-label")?.slice(0, 256);
+      return variant ? [{
+        carousel,
+        ...(label == null ? {} : { label }),
+        variant: variant.slice(0, 256),
+      }] : [];
+    });
+    const snapshot = JSON.stringify(selectedVariants);
+    if (snapshot !== previousSnapshot) {
+      previousSnapshot = snapshot;
+      void globalThis.openai.callTool("__codex_visualization_annotations__", {
+        type: "variants",
+        selectedVariants,
+      }).catch(() => {});
+    }
+  };
+  const observer = new MutationObserver((records) => {
+    if (records.some((record) => record.type === "attributes") || roots.some((root) => !root.isConnected)) {
+      report();
+    }
+  });
+  observer.observe(document, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["data-active-variant"],
+  });
+  report();
+  globalThis.addEventListener("pagehide", () => observer.disconnect(), { once: true });
+})();
+</script>
+<script>
+(() => {
+  const selectorInRoot = (target, root) => {
+    const parts = [];
+    for (let element = target; element != null && parts.length < 64; element = element.parentElement) {
+      const id = element.id && globalThis.CSS?.escape?.(element.id);
+      if (id && id.length <= 256) {
+        const selector = ["#" + id, ...parts].join(" > ");
+        const matches = root.querySelectorAll(selector);
+        if (matches.length === 1 && matches[0] === target) {
+          return selector;
+        }
+      }
+      let index = 1;
+      for (let sibling = element.previousElementSibling; sibling != null; sibling = sibling.previousElementSibling) {
+        if (sibling.localName === element.localName) { index += 1; }
+      }
+      const tag = globalThis.CSS?.escape?.(element.localName) ?? element.localName;
+      parts.unshift(tag + ":nth-of-type(" + index + ")");
+      if (parts.join(" > ").length > 1024) { return null; }
+      if (element.parentElement == null) {
+        const selector = parts.join(" > ");
+        const matches = root.querySelectorAll(selector);
+        return matches.length === 1 && matches[0] === target ? selector : null;
+      }
+    }
+    return null;
+  };
+  const describeTarget = (element) => {
+    if (element == null || !element.isConnected) { return undefined; }
+    const tagName = element.localName.toLowerCase();
+    if (!/^[a-z][a-z0-9-]{0,63}$/.test(tagName)) { return undefined; }
+    const parts = [];
+    let current = element;
+    for (let depth = 0; depth < 16; depth += 1) {
+      const root = current.getRootNode();
+      const selector = selectorInRoot(current, root);
+      if (selector == null) { return undefined; }
+      parts.unshift(selector);
+      if (root === document) {
+        const selector = parts.length === 1 ? parts[0] : "shadow:" + parts.join(">>>");
+        if (selector.length > 1024) { return undefined; }
+        const label = (element.getAttribute("aria-label") || element.getAttribute("title") || "")
+          .replace(/[\u0000-\u001f\u007f-\u009f\u061c\u200e\u200f\u2028-\u202e\u2066-\u2069]/gu, " ")
+          .replace(/\s+/g, " ").trim().slice(0, 160);
+        return { selector, tagName, ...(label ? { label } : {}) };
+      }
+      if (!(root instanceof ShadowRoot) || root.mode !== "open") { return undefined; }
+      current = root.host;
+    }
+    return undefined;
+  };
+  let previousSnapshot = JSON.stringify({ isHovering: false });
+  const reportHover = (event, isHovering, isTouch = false, target) => {
+    const report = isTouch
+      ? { isHovering: false, pointerType: "touch" }
+      : { isHovering, ...(isHovering && target != null ? { target } : {}) };
+    const snapshot = JSON.stringify(report);
+    if (snapshot === previousSnapshot) {
+      return;
+    }
+    previousSnapshot = snapshot;
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_hover__",
+        { ...report, eventTime: globalThis.performance.timeOrigin + event.timeStamp },
+      )
+      .catch(() => {});
+  };
+
+  let hoveredElement;
+  let isTouchHover = false;
+  let latestHover = null;
+  let latestResetTime = 0;
+  const handlePointerHover = (event) => {
+    const isTouch = event.pointerType === "touch";
+    const element = isTouch ? undefined : event.composedPath().find((element) => element instanceof Element);
+    latestHover = { event, element, isTouch };
+    if (event.type === "pointermove" && element === hoveredElement && isTouch === isTouchHover) {
+      return;
+    }
+    hoveredElement = element;
+    isTouchHover = isTouch;
+    reportHover(event, !isTouch, isTouch, isTouch ? undefined : describeTarget(element));
+  };
+  const clearHover = (event) => {
+    hoveredElement = undefined;
+    isTouchHover = false;
+    latestHover = null;
+    reportHover(event, false);
+  };
+  globalThis.addEventListener("openai:set_globals", (event) => {
+    const resetTime = event.detail?.globals?.visualizationHoverReset;
+    if (typeof resetTime !== "number" || !Number.isFinite(resetTime) || resetTime <= latestResetTime) {
+      return;
+    }
+    latestResetTime = resetTime;
+    const latest = latestHover;
+    hoveredElement = undefined;
+    isTouchHover = false;
+    latestHover = null;
+    previousSnapshot = JSON.stringify({ isHovering: false });
+    // A host-observed exit can arrive after the pointer has already reentered.
+    if (latest != null && globalThis.performance.timeOrigin + latest.event.timeStamp > resetTime) {
+      latestHover = latest;
+      hoveredElement = latest.element;
+      isTouchHover = latest.isTouch;
+      reportHover(latest.event, !latest.isTouch, latest.isTouch,
+        latest.isTouch ? undefined : describeTarget(latest.element));
+    }
+  });
+  globalThis.addEventListener("pointerover", handlePointerHover, { capture: true });
+  // Moves between descendants in one shadow root do not emit pointerover outside
+  // that root. The identity guard avoids selector work while a target is unchanged.
+  globalThis.addEventListener("pointermove", handlePointerHover, { capture: true });
+  globalThis.addEventListener(
+    "pointerout",
+    (event) => {
+      if (event.pointerType !== "touch" && event.relatedTarget == null) {
+        clearHover(event);
+      }
+    },
+    { capture: true },
+  );
+  globalThis.addEventListener("pagehide", clearHover);
+})();
+</script>
+<script>
+(() => {
+  const report = (method) => {
+    void globalThis.openai.callTool("__codex_inline_visualization_input__", { method }).catch(() => {});
+  };
+  globalThis.addEventListener("pointerdown", () => report("pointer"), { capture: true });
+  globalThis.addEventListener("keydown", (event) => {
+    if (!event.isComposing && event.key !== "Shift" && !event.altKey && !event.ctrlKey && !event.metaKey) {
+      report(["Tab","ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(event.key) ? "keyboard-navigation" : "keyboard");
+    }
+  }, { capture: true });
+})();
+</script>
+<script>
+(() => {
+  const bubbledClicks = new WeakSet();
+  const interactiveSelector = [
+    "button", "input", "select", "textarea", "label", "summary", "a[href]",
+    "audio[controls]", "video[controls]", "[onclick]", "[data-visualization-interactive]",
+    '[contenteditable]:not([contenteditable="false"])',
+    ...[
+      "button", "checkbox", "combobox", "gridcell", "link", "listbox",
+      "menuitem", "menuitemcheckbox", "menuitemradio", "option", "radio",
+      "scrollbar", "searchbox", "slider", "spinbutton", "switch", "tab",
+      "textbox", "treeitem",
+    ].map((role) => '[role~="' + role + '"]'),
+  ].join(",");
+
+  globalThis.addEventListener("click", (event) => bubbledClicks.add(event));
+  globalThis.addEventListener("click", (event) => {
+    // Capture the path before a control can remove itself. Custom delegated
+    // controls can opt in with data-visualization-interactive.
+    const elements = event.composedPath().filter((target) => target instanceof Element);
+    const isInteractiveTarget = elements.some((element) =>
+      element.matches(interactiveSelector) ||
+      (element.hasAttribute("tabindex") && element.tabIndex >= 0)) ||
+      (elements[0] != null && getComputedStyle(elements[0]).cursor === "pointer");
+    // Use a task, not a microtask: native dispatch can run microtasks between
+    // listeners. Propagation flags are reset when dispatch finishes:
+    // https://dom.spec.whatwg.org/#concept-event-dispatch
+    globalThis.setTimeout(() => {
+      void globalThis.openai.callTool("__codex_inline_visualization_click__", {
+        isInteractive: isInteractiveTarget || event.defaultPrevented ||
+          (event.bubbles && !bubbledClicks.has(event)),
+      }).catch(() => {});
+    }, 0);
+  }, { capture: true });
+})();
+</script>
+<script>
+(() => {
+  globalThis.addEventListener("keydown", (event) => {
+    if (event.isComposing || event.altKey || event.ctrlKey || event.metaKey ||
+      event.shiftKey || !["ArrowLeft", "ArrowRight", "Escape"].includes(event.key)) {
+      return;
+    }
+    const target = event.composedPath().find((element) => element instanceof HTMLElement);
+    const editable = target?.closest("[contenteditable]");
+    const editing = target && (target.isContentEditable ||
+      (editable && editable.getAttribute("contenteditable") !== "false") ||
+      target.closest('input, textarea, select, [role="slider"], [role="spinbutton"], [role="combobox"], [role="listbox"], [role="grid"], [role="tree"], [role="tablist"], [role="menu"]'));
+    if (event.key !== "Escape" && editing) { return; }
+    // Let the widget handle the key before forwarding it across the sandbox.
+    globalThis.setTimeout(() => {
+      if (!event.defaultPrevented && globalThis.openai?.displayMode === "fullscreen") {
+        void globalThis.openai.callTool("__codex_inline_visualization_preview_key__", {
+          key: event.key,
+        }).catch(() => {});
+      }
+    }, 0);
+  });
+})();
+</script>
+
+
+
+
+<script>
+(() => {
+  const contentRange = document.createRange();
+  let previousMeasurement = null;
+  let heightReportTimer = null;
+  const reportHeight = () => {
+    const bodyChildren = Array.from(document.body.children).filter(
+      (element) =>
+        element.tagName !== "SCRIPT" &&
+        element.tagName !== "STYLE" &&
+        element.getAttribute("role") !== "tooltip",
+    );
+    const bodyStyle = globalThis.getComputedStyle(document.body);
+    const contentWidth = Math.max(
+      0,
+      Math.round(
+        globalThis.innerWidth -
+          parseFloat(bodyStyle.paddingLeft) -
+          parseFloat(bodyStyle.paddingRight),
+      ),
+    );
+    let contentHeight;
+    if (bodyChildren.length === 0) {
+      contentRange.selectNodeContents(document.body);
+      contentHeight = contentRange.getBoundingClientRect().height;
+    } else if (bodyChildren.length === 1) {
+      const [bodyChild] = bodyChildren;
+      const childRect = bodyChild.getBoundingClientRect();
+      // Child margins can collapse above the root without adding to its height.
+      // The host adds body padding separately.
+      contentHeight =
+        Math.max(bodyChild.scrollHeight, childRect.height) +
+        Math.max(
+          0,
+          childRect.top -
+            document.body.getBoundingClientRect().top -
+            parseFloat(bodyStyle.paddingTop),
+        );
+    } else {
+      const bodyTop = document.body.getBoundingClientRect().top;
+      contentHeight = Math.max(
+        ...bodyChildren.map(
+          (bodyChild) => bodyChild.getBoundingClientRect().bottom - bodyTop,
+        ),
+      );
+    }
+    const viewportHeight = globalThis.innerHeight;
+    const previous = previousMeasurement;
+    previousMeasurement = { contentHeight, contentWidth, viewportHeight };
+    if (
+      previous != null &&
+      contentWidth === previous.contentWidth &&
+      contentHeight - previous.contentHeight ===
+        viewportHeight - previous.viewportHeight
+    ) {
+      return;
+    }
+
+    void globalThis.openai
+      .callTool(
+        "__codex_inline_visualization_height__",
+        { height: contentHeight, width: contentWidth },
+      )
+      .catch(() => {});
+  };
+  const scheduleHeightReport = () => {
+    if (heightReportTimer != null) {
+      return;
+    }
+    // Offscreen frames can suspend animation callbacks while their content loads.
+    heightReportTimer = globalThis.setTimeout(() => {
+      heightReportTimer = null;
+      reportHeight();
+    }, 0);
+  };
+
+  const resizeObserver = new ResizeObserver(scheduleHeightReport);
+  const observeBodyChildren = () => {
+    for (const element of document.body.children) {
+      resizeObserver.observe(element);
+    }
+  };
+  resizeObserver.observe(document.body);
+  observeBodyChildren();
+  new MutationObserver(() => {
+    observeBodyChildren();
+    scheduleHeightReport();
+  }).observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["style", "class", "height", "width"],
+  });
+  globalThis.addEventListener("resize", scheduleHeightReport);
+  reportHeight();
+})();
+</script>
+<style id="codex-visualization-document-scrollbar">html,body{scrollbar-width:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none!important}</style>
+
+
+</body></html>
